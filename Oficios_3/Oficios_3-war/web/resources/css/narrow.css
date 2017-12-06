@@ -1,0 +1,14 @@
+#zone-header1{
+	width: 30%;
+	display: inline-block;
+}
+#zone-header2{
+	width: 68%;
+	display: inline-block;
+}
+#block-menu-secundario ul{
+	text-align: right;
+}
+#block-menu-secundario ul li{
+	display: inline-block;
+}

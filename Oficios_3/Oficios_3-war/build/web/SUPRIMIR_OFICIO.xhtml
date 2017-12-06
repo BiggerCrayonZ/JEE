@@ -1,0 +1,35 @@
+<ui:composition  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 template="/templateApp.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="namepage">
+        <h:outputText value="Nuevo Oficio"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:tab rendered="#{OficioOA.selectIds.size() > 0}">
+            <table>
+                <tr><p:outputLabel value="¿Seguro de eliminar estos elementos?" /></tr>
+                <tr><td><p:commandButton value="Aceptar" actionListener="#{OficioOA.handleBorradoMultipleOficio}" 
+                                         oncomplete="PF('multiple').hide();" 
+                                         onsuccess="PF('multiple').hide();" 
+                                         update=":catalogoFrm:catalogoTbl"
+                                         action="#{OficioOA.inicia}"/></td></tr>
+                <tr><td><p:commandButton value="Cancelar" oncomplete="PF('multiple').hide();"/> </td></tr>
+            </table>
+        </p:tab>
+        <p:tab rendered="#{OficioOA.selectIds.size() == 0}">
+            <table>
+                <tr><p:outputLabel value="Seleccione un elemento de la lista" /></tr>
+                <tr><td><p:commandButton value="Aceptar"  oncomplete="PF('multiple').hide();"/> </td></tr>
+            </table>
+        </p:tab>
+    </ui:define>
+
+
+
+
+</ui:composition>

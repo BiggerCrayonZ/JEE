@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templateApp.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="namepage">
+        <h:outputText value="Nuevo Oficio" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="catalogoArch">
+            <p:growl id="messages" showDetail="true" />
+            <p:wizard showNavBar="false" widgetVar="wizardOficio" >
+                <p:tab id="info" title="Información">
+                    <p:panel id="infoPane">
+                        <!--                        introducción preeliminar, posible a que desaparesca-->
+                        <p:panel id="basic" header="Introducción"  style="margin-bottom:20px" >
+                            <f:facet name="footer">
+                                <p:commandButton  value="Siguiente"
+                                                  actionListener="#{ArchivosOA.handlePerfilarRegistroArchivo}"
+                                                  icon="ui-icon-arrow-1-e" 
+                                                  iconPos="right"
+                                                  type="button" 
+                                                  onclick="PF('wizardOficio').next();">
+                                </p:commandButton>
+                            </f:facet>
+                            <h:panelGrid columns="2" cellpadding="10">
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </p:panel>
+                </p:tab>
+                <p:tab id="newOfic" title="Formulario">
+                    <p:panel id="addOficio" header="Estructura del Oficio">
+                        <p:focus context="addOficio"/>
+                        <p:panelGrid >
+                            <p:row>
+                                <p:column rowspan="2" >
+                                    <p:fieldset legend="Encabezado del Oficio" style="float:top;">
+                                        <h3 style="margin-top:0">Claves de Identidad para el Documento:  </h3>
+                                        <p:separator />
+                                        <table cellspacing="10">
+                                            <tr>
+                                                <td>
+                                                    <p:outputLabel  for="asunto" value="ASUNTO: " style="float:right"/>
+                                                </td>
+                                                <td>
+                                                    <p:inputTextarea id="asunto" value="#{ArchivosOA.archivo.asunto}" cols="65" rows="1" required="true" maxlength="75" />
+                                                </td>
+                                                <td>
+                                                    <p:message for="asunto" display="icon" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h4 style="margin-top:0">Fechas  </h4>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:outputLabel value="Fecha de Vencimiento: "/> 
+                                                </td>
+                                                <td>
+                                                    <p:calendar id="fecha_vencimiento" value="#{ArchivosOA.archivo.fecha_vencimiento}" pattern="dd-MM-yyyy"  mask="true" effect="clip" showOn="button"/>
+                                                </td>
+                                                <td>
+                                                    <p:outputLabel value="Opcional" style="font-size: 10px;"/> 
+                                                </td>
+                                                <td>
+                                                    <p:message for="fecha_vencimiento" display="icon" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Filtros: </h3>
+                                        <table cellspacing="10">
+                                            <tr>
+                                                <td>
+                                                    <p:selectOneButton id="tipo"  value="#{ArchivosOA.archivo.class_id}" required="true" >
+                                                        <f:selectItem itemLabel="Memorándum" itemValue="1"/>
+                                                        <f:selectItem itemLabel="Oficio" itemValue="2"/>
+                                                        <f:selectItem itemLabel="Invitación" itemValue="3"/>
+                                                        <f:selectItem itemLabel="Académico" itemValue="4"/>
+                                                        <f:selectItem itemLabel="Personal" itemValue="5"/>
+                                                    </p:selectOneButton>
+                                                </td>
+                                                <td>
+                                                    <p:message for="tipo" display="icon" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Nivel de Prioridad para el Documento: </h3>
+                                        <table cellspacing="10">
+                                            <tr>
+                                                <td>
+                                                    <p:selectOneButton id="prioridad" value="#{ArchivosOA.archivo.prioridad_id}" required="true" >
+                                                        <f:selectItem itemLabel="Baja" itemValue="1" />
+                                                        <f:selectItem itemLabel="Media" itemValue="2" />
+                                                        <f:selectItem itemLabel="Alta" itemValue="3" />
+                                                        <f:selectItem itemLabel="Urgente" itemValue="4" />
+                                                    </p:selectOneButton>
+                                                </td>
+                                                <td>
+                                                    <p:message for="tipo" display="icon" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:fieldset>
+                                    <p:fieldset legend="Observaciones" style="margin-bottom:20px">
+                                        <h3 style="margin-top:0">Observaciones del Documento</h3>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea id="comentario" 
+                                                                     rows="2" cols="85" 
+                                                                     counter="display0" 
+                                                                     maxlength="100" 
+                                                                     counterTemplate="{0} characters remaining." 
+                                                                     required="true"
+                                                                     value="#{ArchivosOA.archivo.observaciones}" />
+                                                </td>
+                                                <td>
+                                                    <p:message for="comentario" display="icon" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText id="display0" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:fieldset>
+                                </p:column>
+                                <p:column rowspan="2" >
+                                    <p:fieldset legend="Envio y Recepción" style="margin-bottom:20px">
+                                        <h3 style="margin-top:0">Datos de Emisión y Recepción: </h3>
+                                        <p:panelGrid>
+                                            <p:row>
+                                                <p:column colspan="6"  styleClass="ui-widget-header">
+                                                    <p:spacer height="1"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column  >
+                                                    <h:outputText value="Usuario Emisor " style="font-weight: bold;" />
+                                                </p:column>
+                                                <p:column colspan="4">
+                                                    <p:inputTextarea rows="1" cols="75" value="#{ArchivosOA.archivo.usuario_emirsor}" required="true"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText value="Departamento Emisor" style="font-weight: bold;" />
+                                                </p:column>
+                                                <p:column colspan="2">
+                                                    <p:selectOneMenu id="lazyEntidades" value="#{ArchivosOA.archivo.departamento_emirsor}" 
+                                                                     editable="true" 
+                                                                     style="font-size: 10px; width: 450px;">
+                                                        <f:selectItem itemLabel="Selecciona una entidad" itemValue="" />
+                                                        <f:selectItems value="#{ArchivosOA.opcionesEntidades}" />
+                                                    </p:selectOneMenu>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column colspan="6"  styleClass="ui-widget-header">
+                                                    <p:spacer height="1"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText value="Usuario Asignado " style="font-weight: bold;" />
+                                                </p:column>
+                                                <p:column colspan="4">
+                                                    <p:inputTextarea rows="1" cols="75" value="#{ArchivosOA.archivo.usuario_destino}" required="true" />
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <h:outputText value="Departamento Asignado" style="font-weight: bold;" />
+                                                </p:column>
+                                                <p:column colspan="4">
+                                                    <p:inputTextarea rows="1" cols="75" value="#{ArchivosOA.archivo.departamento_destino}" required="true" />
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <p:fieldset legend="Campos del Oficio" style="margin-bottom:20px" >
+                                        <h3 style="margin-top:0">Saludo del Documento</h3>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea id="saludo" 
+                                                                     rows="3" cols="85" 
+                                                                     counter="display1" 
+                                                                     maxlength="200" 
+                                                                     counterTemplate="{0} characters remaining." 
+                                                                     required="true"
+                                                                     value="#{ArchivosOA.archivo.archivo_saludo}" />
+                                                </td>
+                                                <td>
+                                                    <p:message for="saludo" display="icon" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText id="display1" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Cuerpo del Documento</h3>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea id="Cuerpo" 
+                                                                     rows="10" cols="85" 
+                                                                     counter="display2" 
+                                                                     maxlength="700" 
+                                                                     required="true"
+                                                                     counterTemplate="{0} characters remaining." 
+                                                                     value="#{ArchivosOA.archivo.archivo_cuerpo}" />
+                                                </td>
+                                                <td>
+                                                    <p:message for="Cuerpo" display="icon" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText id="display2" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Despedida del Documento</h3>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea id="despedida" 
+                                                                     rows="3" cols="85" 
+                                                                     counter="display3" 
+                                                                     maxlength="200" 
+                                                                     counterTemplate="{0} characters remaining." 
+                                                                     value="#{ArchivosOA.archivo.archivo_despedida}" >
+                                                    </p:inputTextarea>
+
+                                                </td>
+                                                <td>
+                                                    <p:message for="despedida" display="icon" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText id="display3" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:fieldset>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:fieldset>
+                            <h:panelGroup>
+                                <p:commandButton value="Verificar Información" 
+                                                 update=":catalogoArch:addOficio"
+                                                 action="#{ArchivosOA.mensajeCorrectio}">
+                                </p:commandButton>
+                            </h:panelGroup>
+                            <p:messages id="msgs" />
+                        </p:fieldset>
+                        <f:facet name="footer">
+                            <p:commandButton  value="Atras"
+                                              icon="ui-icon-arrow-1-w" 
+                                              iconPos="left"
+                                              type="button" 
+                                              onclick="PF('wizardOficio').back();">
+                            </p:commandButton>
+                            <p:commandButton  value="Siguiente"
+                                              rendered="#{ArchivosOA.permisoAgregarArchivo == true and ArchivosOA.permisoModificarArchivo == false}"
+                                              icon="ui-icon-arrow-1-e" 
+                                              style="float:right;"
+                                              type="button" 
+                                              onclick="PF('wizardOficio').next();">
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="confirmarDatos" title="Confirmación">
+                    <p:panel id="conData" >
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:fieldset>
+                                        <h3 style="margin-top:0">Datos de Identidad:</h3>
+                                        <p:separator />
+                                        <h4 style="margin-top:0">Asunto:</h4>
+                                        <table cellspacing="10">
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea rows="2" cols="60" value="#{ArchivosOA.archivo.asunto}" readonly="true" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Fechas Asiganadas: </h3>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:outputLabel value="FECHA DE VENCIMIENTO: " style="float:right"/> 
+                                                </td> 
+                                                <td>
+                                                    <p:calendar value="#{ArchivosOA.archivo.fecha_vencimiento}" rendered="#{ArchivosOA.archivo.oficio_bandera_vencimiento == 1}" 
+                                                                pattern="dd-MM-yyyy" 
+                                                                mask="true" 
+                                                                effect="clip" 
+                                                                readonly="true" 
+                                                                readonlyInput="true" />
+                                                    <h:outputText value="El oficio no tiene fecha de vencimiento" rendered="#{ArchivosOA.archivo.oficio_bandera_vencimiento == 0}" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p:separator />
+                                        <h3 style="margin-top:0">Categorías: </h3>
+                                        <p:separator />
+                                        <table cellspacing="10">
+                                            <tr>
+                                                <td>
+                                                    <h2 style="margin-top:0">Tipo de Documento: </h2>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="Memorándum" style="font-size: 20px;font-weight: lighter;" rendered="#{ArchivosOA.archivo.class_id == 1}" />
+                                                    <h:outputText value="Oficio" style="font-size: 20px;font-weight: lighter;" rendered="#{ArchivosOA.archivo.class_id == 2}" />
+                                                    <h:outputText value="Invitación" style="font-size: 20px;font-weight: lighter;" rendered="#{ArchivosOA.archivo.class_id == 3}" />
+                                                    <h:outputText value="Académico" style="font-size: 20px;font-weight: lighter;" rendered="#{ArchivosOA.archivo.class_id == 4}" />
+                                                    <h:outputText value="Personal" style="font-size: 20px;font-weight: lighter;" rendered="#{ArchivosOA.archivo.class_id == 5}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h2 style="margin-top:0">Nivel de Prioridad: </h2>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="Baja" style="font-size: 20px;font-weight: lighter; color: greenyellow;" rendered="#{ArchivosOA.archivo.prioridad_id == 1}" />
+                                                    <h:outputText value="Media" style="font-size: 20px;font-weight: lighter; color: yellow;" rendered="#{ArchivosOA.archivo.prioridad_id == 2}" />
+                                                    <h:outputText value="Alta" style="font-size: 20px;font-weight: lighter; color: salmon;" rendered="#{ArchivosOA.archivo.prioridad_id == 3}" />
+                                                    <h:outputText value="Urgente" style="font-size: 22px;font-weight: lighter; color: red;" rendered="#{ArchivosOA.archivo.prioridad_id == 4}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h2 style="margin-top:0">Observaciones </h2>
+                                                </td>
+                                                <td>
+                                                    <h:inputTextarea readonly="true" value="#{ArchivosOA.archivo.observaciones}" rows="2" cols="75"  />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:fieldset>
+                                </td>
+                                <td>
+                                    <p:fieldset legend="Documento" >
+                                        <h:panelGrid columns="2" columnClasses="label, value" style="text-align: left;">
+                                            <h:outputText value="Usuario por Asignar: " />
+                                            <h:outputText value="#{ArchivosOA.archivo.usuario_destino}" style="font-size: 12px" />
+                                            <h:outputText value="Departamento por Asignar: " />
+                                            <h:outputText value="#{ArchivosOA.archivo.departamento_destino}" style="font-size: 12px" />
+                                        </h:panelGrid>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h3 style="margin-top:0">Saludo del Documento: </h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea  
+                                                        rows="3" cols="85"
+                                                        readonly="true"
+                                                        value="#{ArchivosOA.archivo.archivo_saludo}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h3 style="margin-top:0">Cuerpo del Documento: </h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea  
+                                                        rows="10" cols="85" 
+                                                        readonly="true"
+                                                        value="#{ArchivosOA.archivo.archivo_cuerpo}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h3 style="margin-top:0">Despedida del Documento: </h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p:inputTextarea  
+                                                        rows="3" cols="85" 
+                                                        readonly="true"
+                                                        value="#{ArchivosOA.archivo.archivo_despedida}" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <h:panelGrid columns="2" columnClasses="label, value">
+                                            <h:outputText value="Usuario Emisor: " />
+                                            <h:outputText value="#{ArchivosOA.archivo.usuario_emirsor}" style="font-size: 12px" />
+                                            <h:outputText value="Departamento Emisor: " />
+                                            <h:outputText value="#{ArchivosOA.archivo.departamento_emirsor}" style="font-size: 12px" />
+                                        </h:panelGrid>
+                                    </p:fieldset>
+                                </td>
+                            </tr>
+                        </table>
+                        <p:fieldset id="msgConfirm">
+                            <h:outputLabel  value="Confirmar datos para creación del documento; el documento podrá ser modificado en un el futuro: " />
+                            <p:selectBooleanButton id="value1" value="#{ArchivosOA.permisoFinal}"  onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                <p:ajax update="conData" />
+                            </p:selectBooleanButton>
+                        </p:fieldset>
+
+                        <f:facet name="footer">
+                            <p:commandButton  value="Atras"
+                                              icon="ui-icon-arrow-1-w" 
+                                              iconPos="left"
+                                              type="button" 
+                                              onclick="PF('wizardOficio').back();">
+                            </p:commandButton>
+                            <p:commandButton  value="Crear Documento"
+                                              rendered="#{ArchivosOA.permisoFinal == true}"
+                                              icon="ui-icon-arrow-1-e" 
+                                              style="float:right;"
+                                              type="button"
+                                              onclick="PF('conNue').show();"
+                                              oncomplete ="PF('wizardOficio').next();">
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="previewOfic" title="Descarga">
+                    <p:panel id="preOfic" rendered="#{ArchivosOA.archivoCreadoExito == true}">
+                        <h3 style="margin-top:0">Visualizador del Documento</h3>
+                        <br></br>
+                        <p:commandButton value="Descargar" 
+                                         update="catalogoArch:proOfic"
+                                         icon="ui-icon-arrowthick-1-s" 
+                                         ajax="false" >
+                            <p:fileDownload value="#{ArchivosOA.archivoPDF}"/>
+                        </p:commandButton>
+                        <f:facet name="footer">
+                            <p:commandButton  value="Finalizar Documento"
+                                              icon="ui-icon-arrow-1-e" 
+                                              style="float:right;"
+                                              onclick="PF('conFin').show();">
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panel>
+                    <p:panel rendered="#{ArchivosOA.archivoCreadoExito == false}">
+                        <h2 style="margin-top:0">Error en el servidor, pongase en contacto con el administrador del sistema. </h2>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="finalOfic" title="Finalizar">
+                    <p:panel id="finOfic">
+                        <h3 style="margin-top:0">Visualizador del Documento</h3>
+                        <p:outputLabel value="Visualiza el oficio en la Bandeja Principal" />
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+
+            <p:dialog id="confirmarNuevo" widgetVar="conNue" position="top" header="Confirmación" resizable="false" modal="true" >
+                <p:panel>
+                    <h:form>
+                        <p:tab>
+                            <table cellspacing="5">
+                                <tr><td><p:outputLabel value="El oficio esta a punto de ser creado."/></td></tr>
+                                <tr><td><p:outputLabel value="¿Esta seguro de guardar los cambios?"/></td></tr>
+                                <tr><td colspan="2">
+                                        <p:commandButton value="Si"
+                                                         onclick="PF('conNue').hide();"
+                                                         actionListener="#{ArchivosOA.metodoNuevo}"
+                                                         oncomplete= "PF('wizardOficio').next();">
+                                        </p:commandButton>
+                                    </td></tr>
+                            </table>
+                        </p:tab>
+                    </h:form>
+                </p:panel>
+            </p:dialog>
+            <p:dialog id="confirmarFinalizacion" widgetVar="conFin" position="top" header="Finalizar" resizable="false" modal="true" >
+                <p:panel>
+                    <h:form>
+                        <p:tab>
+                            <table cellspacing="5">
+                                <tr><td><p:outputLabel value="El oficio esta a punto de ser finalizado."/></td></tr>
+                                <tr><td><p:outputLabel value="¿Esta seguro de guardar los cambios?"/></td></tr>
+                                <tr><td colspan="2">
+                                        <p:commandButton value="Si"
+                                                         onclick="PF('conFin').hide();"
+                                                         actionListener="#{ArchivosOA.handleFinalizarDocumento}"
+                                                         oncomplete= "PF('wizardOficio').next();">
+                                        </p:commandButton>
+                                    </td></tr>
+                            </table>
+                        </p:tab>
+                    </h:form>
+                </p:panel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+
+<!--update="catalogoArch:proOfic"-->
+

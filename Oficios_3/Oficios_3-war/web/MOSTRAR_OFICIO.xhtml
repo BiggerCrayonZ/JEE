@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templateApp.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="cod" value="#{OficioOA.idUnico}" required="true" />
+        <f:event type="preRenderView" listener="#{OficioOA.handleCargarUnicoOficio}"/>
+    </f:metadata>
+
+    <ui:define name="namepage">
+        <h:outputText value="Visualizador de Oficio" />
+    </ui:define>
+
+    <ui:define name="content">
+        <p:growl id="visual" life="1000" />
+        <h:outputStylesheet library="css" rendered="add.css"/>
+
+        <p:panel>
+            <p:tab>
+                <table cellspacing="10">
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Folio:"/></td><td><p:outputLabel value="#{OficioOA.oficio.folio}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Asunto:"/></td><td><p:outputLabel value="#{OficioOA.oficio.asunto}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Numero"/></td><td><p:outputLabel value="#{OficioOA.oficio.numero}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Fecha Oficio:"/></td><td><p:outputLabel value="#{OficioOA.oficio.fecha_oficio}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Fecha Registro:"/></td><td><p:outputLabel value="#{OficioOA.oficio.fecha_registro}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Fecha Ingreso:"/></td><td><p:outputLabel value="#{OficioOA.oficio.fecha_ingreso}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Fecha Vencimiento:"/></td><td><p:outputLabel value="#{OficioOA.oficio.fecha_vencimiento}"/></td></tr>
+                    <tr><td><p:outputLabel style="font-weight: bold" value="Observaciones: "/></td></tr>
+                    <tr><td width="290"><p:outputLabel value="#{OficioOA.oficio.observaciones}" /></td></tr>
+                </table>
+            </p:tab>
+        </p:panel>
+        <p:panel rendered="#{OficioOA.oficio == null}">
+            <p:outputLabel value="El Oficio No Existe" />
+        </p:panel>
+
+        <script>
+            function cerrarDlg(args) {
+                if (args.cerrar) {
+                    PF('wCatalogoDlg').hide();
+                    PF('wConfirmacion').hide();
+                } else {
+                    jQuery('#wCatalogoDlg').effect("shake", {times: 3}, 100);
+                }
+            }
+
+            function mostrar() {
+                alert('hola');
+            }
+        </script>
+    </ui:define>
+</ui:composition>

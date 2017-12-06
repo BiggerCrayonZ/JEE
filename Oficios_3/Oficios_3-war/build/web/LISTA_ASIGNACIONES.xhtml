@@ -1,0 +1,70 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <p:toolbar>
+        <f:facet name="right">
+            <p:commandButton  icon="ui-icon-arrowrefresh-1-w" update="catalogoAsig" />
+        </f:facet>
+    </p:toolbar>
+    <p:dataTable 
+        id="catalogoAsig" 
+        value="#{asignacionOA.listaAsigndosByOficio}"
+        widgetVar="wCatalogoAsig"
+        scrollable="true"
+        lazy="true"
+        resizableColumns="true"
+        var="trom"
+        rowKey="#{trom.asig_fecha}"
+        emptyMessage="No tiene asignación">
+        <f:facet name="header">
+            Lista de Asignaciones
+        </f:facet>
+        <!--               Columna para filtrar por Fecha-->
+        <p:column
+            style="text-align: left; width:65px;" 
+            sortBy="#{trom.asig_fecha}">
+            <f:facet name="header">
+                <h:outputText value="Fecha"/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_fecha}" style="float:left" />
+        </p:column>
+        <p:column style="white-space: normal;" 
+                  sortBy="#{trom.asig_emisor}">
+            <f:facet name="header">
+                <h:outputText value="Emisor: "/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_emisor}" style="float:left" />
+        </p:column>
+        <p:column style="white-space: normal;" 
+                  sortBy="#{trom.asig_dep_emisor}">
+            <f:facet name="header">
+                <h:outputText value="Departamento Emisor: "/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_dep_emisor}" style="float:left" />
+        </p:column>
+        <p:column style="white-space: normal;" 
+                  sortBy="#{trom.asig_asignado}">
+            <f:facet name="header">
+                <h:outputText value="Asignado a:"/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_asignado}" style="float:left" />
+        </p:column>
+        <p:column style="white-space: normal;" 
+                  sortBy="#{trom.asig_dep_asignado}">
+            <f:facet name="header">
+                <h:outputText value="Departamento Asignado a: "/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_dep_asignado}" style="float:left" />
+        </p:column>
+        <p:column rendered="#{asignacionOA.permisoVerTipo == true}"
+                  style="white-space: normal;" 
+                  sortBy="#{trom.asig_tipo}">
+            <f:facet name="header">
+                <h:outputText value="Tipo de Asignación: "/>
+            </f:facet>
+            <h:outputText value="#{trom.asig_tipo}" style="float:left" />
+        </p:column>
+    </p:dataTable>
+</ui:composition>

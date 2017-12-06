@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+    <application>
+        <resource-bundle>
+            <base-name>edu.udg.core.bundle.Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+        <resource-handler>edu.udg.core.portal.util.CustomResourceHandler</resource-handler>
+    </application>
+    <managed-bean>
+        <managed-bean-name>SesionOA</managed-bean-name>
+        <managed-bean-class>
+            edu.udg.core.view.SesionOA
+        </managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <lifecycle>
+        <phase-listener>
+            edu.udg.core.listener.SessionPhaseListener
+        </phase-listener>
+    </lifecycle>
+
+</faces-config>

@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templateApp.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="namepage">
+        <h:outputText value="Lista de Oficios" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="catalogoFrm">
+            <p:growl id="messages" showDetail="true" />
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:outputLabel value="Barra de Heramientas: " />
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+                    <p:commandButton  value="Añadir Existente" 
+                                      icon="ui-icon-folder-open" 
+                                      update=":registro"
+                                      immediate="true"
+                                      actionListener="#{OficioOA.handlePerfilarRegistro}"
+                                      rendered="#{OficioOA.permisoAñadir == true}"
+                                      oncomplete="PF('insertForm').show();">
+                    </p:commandButton>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+                    <p:commandButton  value="Asignar" 
+                                      icon="ui-icon-folder-open" 
+                                      update=":registro"
+                                      immediate="true"
+                                      oncomplete="PF('asignForm').show();">
+                    </p:commandButton>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton  icon="ui-icon-arrowrefresh-1-w" update="catalogoOfic"  action="#{OficioOA.inicia}" ajax="false" />
+                </f:facet>
+            </p:toolbar>
+            <p:panel id="contenedorT" header="Bandeja Principal" toggleable="true" >
+
+                <p:fieldset legend="Buscar y Filtrar" collapsed="true" toggleable="true">
+                    <p:tab title="buscar" id="frm">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Palabras Clave(opcional): "/>
+                                </td>
+                                <td>
+                                    <p:inputText></p:inputText>
+                                </td>
+                                <td><p:outputLabel value="Filtro:"/> </td>
+                                <td> <p:selectOneMenu effect="fold">
+                                        <f:selectItem itemLabel="Selecciona" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Asignados" itemValue="1"/>
+                                        <f:selectItem itemLabel="En seguimeinto" itemValue="2"/>
+                                        <f:selectItem itemLabel="Enviados" itemValue="3"/>
+                                        <f:selectItem itemLabel="Concluidos" itemValue="4"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <p:commandButton icon="ui-ico-search"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:tab>
+                </p:fieldset>
+                <p:tabMenu activeIndex="#{OficioOA.tabindex}">
+                    <p:menuitem value="Todos" actionListener="#{OficioOA.tabular}"  update="contenedorT">
+                        <f:attribute name="i" value="Todos" />
+                    </p:menuitem>
+                    <p:menuitem value="Enviados" actionListener="#{OficioOA.tabular}"  update="contenedorT">
+                        <f:attribute name="i" value="Enviados" />
+                    </p:menuitem>
+                    <p:menuitem value="Recibidos" actionListener="#{OficioOA.tabular}"  update="contenedorT">
+                        <f:attribute name="i" value="Recibidos" />
+                    </p:menuitem>
+                    <p:menuitem value="Asignados" actionListener="#{OficioOA.tabular}"  update="contenedorT">
+                        <f:attribute name="i" value="Asignados" />
+                    </p:menuitem>
+                    <p:menuitem value="En Seguimiento" actionListener="#{OficioOA.tabular}"  update="contenedorT">
+                        <f:attribute name="i" value="En seguimient" />
+                    </p:menuitem>
+                </p:tabMenu>
+                <!--                    </p:panel>
+                                    <p:panel>-->
+                <p:dataTable id="catalogoOfic" 
+                             widgetVar="wCatalogoOfic" 
+                             scrollable="true"
+                             value="#{OficioOA.oficios}" 
+                             lazy="true"
+                             var="tram" 
+                             selection="#{OficioOA.selectId}" 
+                             rowKey="#{tram.folio}"
+                             paginator="true" paginatorPosition="bottom" 
+                             pageLinks="5" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                             currentPageReportTemplate="({currentPage} de {totalPages})" 
+                             rows="10" rowsPerPageTemplate="10, 25, 50" 
+                             resizableColumns="true"
+                             selectionMode="single"
+                             emptyMessage="No hay registros por mostrar" sortBy="#{tram.oficioId}">
+                    <f:facet name="header">
+                        Lista de Oficios
+                    </f:facet>
+                    <p:ajax  event="rowDblselect" 
+                             listener="#{OficioOA.dobleClick}" 
+                             oncomplete="PF('mostrar').show();"
+                             update="catalogoFrm:contenedorDet">
+                    </p:ajax>
+                    <!--               Columna para filtrar por Estatus-->
+                    <p:column  filterBy="#{tram.estatus}" style="text-align: left; width:65px;" 
+                               filterMatchMode="exact"                                      
+                               sortBy="#{tram.estatus}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('wCatalogoOfic').filter()">
+                                <f:selectItem itemLabel="Todos" 
+                                              itemValue="#{null}" 
+                                              noSelectionOption="true" />
+                                <f:selectItem itemLabel="Nuevo" itemValue="1" />
+                                <f:selectItem itemLabel="En proceso" itemValue="2" />
+                                <f:selectItem itemLabel="En Espera" itemValue="3" />
+                                <f:selectItem itemLabel="Suspendido" itemValue="4" />
+                                <f:selectItem itemLabel="Terminando" itemValue="5" />
+                                <f:selectItem itemLabel="Cancelado" itemValue="6" />
+                                <f:selectItem itemLabel="Sin Estatus" itemValue="Sin Estatus" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="header">
+                            <h:outputText value="Estatus:"/>
+                        </f:facet>
+                        <h:outputText value="#{tram.estatus}" style="float:left"/>
+                    </p:column>
+                    <!--                                   Columna para filtrar por oficioid
+                                        <p:column filterBy="#{tram.oficioId}" 
+                                                  filterMatchMode="contains"
+                                                  sortBy="#{tram.oficioId}">
+                                            <f:facet name="header">
+                                                <h:outputText value="Clave:"/>
+                                            </f:facet>
+                                            <h:outputText value="#{tram.oficioId}"/>
+                                        </p:column>-->
+                    <!--               Columna para filtrar por folio-->
+                    <p:column filterBy="#{tram.folio}" style="text-align: left; width:100px;" 
+                              filterMatchMode="contains" 
+                              sortBy="#{tram.folio}">
+                        <f:facet name="header">
+                            <h:outputText value="Folio:"/>
+                        </f:facet>
+                        <h:outputText value="#{tram.folio}"/>
+                    </p:column>
+                    <!--               Columna para filtrar por Asunto-->
+                    <p:column filterBy="#{tram.asunto}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{tram.asunto}">
+                        <f:facet name="header">
+                            <h:outputText value="Asunto:"/>
+                        </f:facet>
+                        <h:outputText value="#{tram.asunto}" style="float:left" />
+                    </p:column>
+
+                    <!--               Columna para filtrar por observaciones-->
+                    <p:column filterBy="#{tram.observaciones}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{tram.observaciones}">
+                        <f:facet name="header">
+                            <h:outputText value="Observaciones"/>
+                        </f:facet>
+                        <h:outputText value="#{tram.observaciones}"/>
+                    </p:column>
+                    <!--                            Columna de Vista-->
+                    <p:column style="width:50px;text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="Detalles: "/>
+                        </f:facet>
+                        <p:commandButton 
+                            update=":catalogoFrm:contenedorDet"
+                            onclick="PF('conDetOfic').collapse();"
+                            oncomplete="PF('conDetOfic').toggle();"
+                            icon="ui-icon-search" 
+                            title="Vista">
+                            <f:setPropertyActionListener value="#{tram}" target="#{OficioOA.selectId}" />
+                            <f:setPropertyActionListener value="#{tram}" target="#{asignacionOA.seleccion}" />
+                        </p:commandButton>
+                    </p:column>
+                    <!--                            Columna de Eliminación-->
+                    <p:column style="width:50px;text-align: center"  rendered="#{OficioOA.permisoEliminar == true}">
+                        <f:facet name="header">
+                            <h:outputText value="Eliminar:" />
+                        </f:facet>
+                        <p:commandButton 
+                            oncomplete="PF('elim').show();"
+                            update="multiple"  
+                            icon="ui-icon-trash" 
+                            title="Eliminar">
+                            <f:setPropertyActionListener value="#{tram}" target="#{OficioOA.selectId}" />
+                        </p:commandButton>
+                    </p:column>
+                    <!--                            Columna de Asignación-->
+                    <p:column style="width:50px;text-align: center"  rendered="#{asignacionOA.permisoAsignacion == true}">
+                        <f:facet name="header">
+                            <h:outputText value="Asignar" />
+                        </f:facet>
+                        <p:commandButton 
+                            oncomplete="PF('asignForm').show();"
+                            update="asignacion"  
+                            icon="ui-icon-tag" 
+                            title="Asignar">
+                            <f:setPropertyActionListener value="#{tram}" target="#{asignacionOA.oficioSeleccionado}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:panel  id="contenedorDet" header="Detalles del Oficio" toggleable="true" collapsed="true" widgetVar="conDetOfic">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <span class="ui-separator">
+                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                        </span>
+                        <p:commandButton  value="Lista de Asignaciones del Oficio" 
+                                          icon="ui-icon-flag" 
+                                          immediate="true"
+                                          oncomplete="PF('asignList').show();"
+                                          actionListener="#{asignacionOA.HandleCargarAsignaciones}">
+                        </p:commandButton>
+                        <span class="ui-separator">
+                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                        </span>
+                    </f:facet>
+                </p:toolbar>
+                <p:panelGrid style="width: 100%; border: none;" >
+                    <p:row>
+                        <p:column>
+                            <p:panel header="Información">
+                                <table cellspacing="10"  width="100%">
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Asunto: " />
+                                        </td>
+                                        <td colspan="3">
+                                            <p:inputTextarea value="#{OficioOA.selectId.asunto}" readonly="true" rows="1" cols="75" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Folio: " />
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{OficioOA.selectId.folio}" readonly="true"  />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                            <p:panel header="Fecha" rendered="#{OficioOA.selectId.oficio_bandera_vencimiento == 1}">
+                                <table cellspacing="10">
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Fecha de Vencimiento: " />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{OficioOA.selectId.fecha_vencimiento}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                            <p:panel header="Fechas" rendered="#{OficioOA.selectId.oficio_bandera_vencimiento == 0}" >
+                                <table cellspacing="10" width="100%" >
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Fecha de Vencimiento: " />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="El oficio no tiene fecha de vencimiento" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                            <p:panel header="Observaciones del Documento:">
+                                <table  width="100%">
+                                    <tr>
+                                        <td>
+                                            <p:inputTextarea readonly="true" value="#{OficioOA.selectId.observaciones}" rows="2" cols="100" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:column>
+                        <p:column >
+                            <p:panel header="Documento: " style="float: top;">
+                                <table cellspacing="10" >
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Estatus: " />
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{OficioOA.selectId.estatus}" style="font-size: 14px" readonly="true" />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="Prioridad: " />
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{OficioOA.selectId.priori}" style="font-size: 14px" readonly="true" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Clase de Documento: " />
+                                        </td>
+                                        <td colspan="3">
+                                            <p:inputTextarea value="#{OficioOA.selectId.clase}" style="font-size: 14px" readonly="true" rows="1" cols="60" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                            <p:panel header="Previsualización de Documento Adjuntado" rendered="#{OficioOA.selectId.oficio_tipo == 0}" >
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Tipo de Documento: " />
+                                        </td>
+                                        <td colspan="3">
+                                            <p:inputTextarea value="#{OficioOA.selectId.oficio_tipo_string}" style="font-size: 14px" readonly="true" rows="1" cols="30" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p:commandButton value="Visualizar"
+                                                 actionListener="#{OficioOA.handleCargarUnicoDocumento}"
+                                                 oncomplete="PF('previewForm').show();"
+                                                 rendered="true"
+                                                 immediate="true"
+                                                 update="previewDoc">
+                                    <f:param name="idDocumento" value="#{tram.oficioId}" />
+                                </p:commandButton>
+
+                            </p:panel>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+
+        <!--Dialogo de Visualización de Oficios Adjuntados-->
+        <p:dialog header="Visualizador" widgetVar="previewForm" minHeight="80" width="650px" modal="true" resizable="false" showEffect="clip" position="top">
+            <p:panel id="previewDoc">
+                <h:form id="previewDocForm">
+                    <p:media value="#{OficioOA.documentoDescargado}" width="250" height="225" player="pdf">
+                    </p:media>
+                </h:form>
+            </p:panel>
+        </p:dialog> 
+        <!--Dialogo de Registro de oficios-->
+        <p:dialog header="Registro de Oficio" widgetVar="insertForm" height="275px" width="750px"  resizable="false" closable="false" showEffect="clip" position="top" closeOnEscape="true">
+            <p:panel id="registro">
+                <h:form id="registraOficio">
+                    <ui:include src="AGREGAR_OFICIO.xhtml"/>
+                </h:form>
+            </p:panel>
+        </p:dialog> 
+        <!--Dialogo de Registro de oficios-->
+        <p:dialog header="Asignación de Oficios" widgetVar="asignForm"  resizable="false" closable="true" showEffect="clip" position="top" closeOnEscape="true"  >
+            <p:panel id="asignacion">
+                <h:form id="asignarOficio">
+                    <ui:include src="MODULO_ASIGNACION.xhtml"/>
+                </h:form>
+            </p:panel>
+        </p:dialog>
+        <!--Dialogo de Registro de oficios-->
+        <p:dialog header="Lista de Asignados" widgetVar="asignList"  width="1250px"  resizable="false" closable="true" showEffect="clip" position="top" closeOnEscape="true"  >
+            <p:panel id="asigList">
+                <h:form id="asigOficio">
+                    <ui:include src="LISTA_ASIGNACIONES.xhtml"/>
+                </h:form>
+            </p:panel>
+        </p:dialog>
+
+        <!--Dialogo de Eliminacion de oficio-->
+        <p:dialog  widgetVar="elim" minHeight="10" modal="true" resizable="false" showEffect="puff" position="center">
+            <p:panel id="multiple" >
+                <h:form id="multipleOficio">
+                    <p:tab >
+                        <table>
+                            <tr><p:outputLabel value="¿Estas seguro de borrar este Oficio?"/></tr>
+                            <tr><td><p:commandButton value="Si" 
+                                                     actionListener="#{OficioOA.handleEliminarUnicoOficio}" 
+                                                     oncomplete="PF('elim').hide();" 
+                                                     onsuccess="PF('elim').hide();" 
+                                                     update="catalogoFrm:catalogoOfic"
+                                                     action="#{OficioOA.inicia}"/></td>
+                                <td><p:commandButton value="No" oncomplete="PF('elim').hide();"/></td></tr>
+                        </table>
+                    </p:tab>
+                </h:form>
+            </p:panel>
+        </p:dialog> 
+
+
+        <!--Confirmación Dialogo de Edicion -->
+        <p:dialog id="confirmacionEditar" widgetVar="confirmarEditar">
+            <p:panel>
+                <h:form>
+                    <p:tab>
+                        <table>
+                            <tr><td><p:outputLabel value="¿Esta seguro de los cambios realizados al Oficio?"/></td></tr>
+                            <tr><td colspan="2">
+                                    <p:commandButton value="Si" 
+                                                     actionListener="#{OficioOA.handleModificarOficio}" 
+                                                     oncomplete="PF('confirmarEditar').hide();" 
+                                                     onsuccess="PF('insertForm').hide();" 
+                                                     update="catalogoFrm:catalogoOfic" 
+                                                     action="#{OficioOA.inicia}">
+                                    </p:commandButton>
+                                    <p:commandButton value="No"
+                                                     onclick="PF('confirmarEditar').hide();">
+                                    </p:commandButton>
+                                </td></tr>
+                        </table>
+                    </p:tab>
+                </h:form>
+            </p:panel>
+        </p:dialog>
+
+
+    </ui:define>
+
+    <!--        Dialogo para ver detalles de oficios-->
+
+
+    <!--                                                                            -->
+    <!--        Scripts-->
+    <!--                                                                            -->
+    <script>
+        function cerrarDlg(args)
+        {
+            if (args.cerrar)
+            {
+                PF('wCatalgoDlg').hide();
+                PF('wConfirmacion').hide();
+            } else
+            {
+                jQuery('#CatalogoDlg').effect("shake", {time: 3}, 100);
+            }
+        }
+
+        function mostrar()
+        {
+            alert('hola');
+        }
+    </script>
+
+
+
+
+
+
+</ui:composition>
+

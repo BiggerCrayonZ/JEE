@@ -1,0 +1,197 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <p:wizard  widgetVar="wizardAñadirAsignacion" showNavBar="false">
+        <p:tab title="Datos de Emisión" id="tabIntro">
+            <p:panel>
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputText value="Usuario Emisor " style="font-weight: bold;" />
+                        </td>
+                        <td colspan="3">
+                            <p:inputTextarea rows="1" cols="75" value="#{asignacionOA.asignacion.asig_emisor}" required="true"/>
+                        </td>
+                        <tr>
+                            <td>
+                                <h:outputText value="Departamento Emisor" style="font-weight: bold;" />
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="lazyEntidades" value="#{asignacionOA.asignacion.asig_dep_emisor}" 
+                                                 editable="true" 
+                                                 style="font-size: 10px; width: 450px;" required="true">
+                                    <f:selectItem itemLabel="Selecciona una entidad" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{asignacionOA.opcionesEntidadesEmisor}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+                <f:facet name="footer">
+                    <p:commandButton  value="Siguiente"
+                                      icon="ui-icon-arrow-1-e" 
+                                      style="float:right;"
+                                      iconPos="right"
+                                      type="button" 
+                                      onclick="PF('wizardAñadirAsignacion').next();">
+                    </p:commandButton>
+                </f:facet>
+            </p:panel>
+        </p:tab>
+        <p:tab  title="Asignación" id="tabAsig">
+            <p:panel>
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputText value="Usuario Asignado " style="font-weight: bold;" />
+                        </td>
+                        <td colspan="3">
+                            <p:inputTextarea rows="1" cols="75" value="#{asignacionOA.asignacion.asig_asignado}" required="true" />
+                        </td>
+                        <tr>
+                            <td>
+                                <h:outputText value="Departamento Asignado" style="font-weight: bold;" />
+                            </td>
+                            <td>
+                                <p:inputTextarea rows="1" cols="75" value="#{asignacionOA.asignacion.asig_dep_asignado}" required="true" />
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+                <f:facet name="footer">
+                    <p:commandButton  value="Regresar"
+                                      icon="ui-icon-arrow-1-w" 
+                                      iconPos="left"
+                                      type="button" 
+                                      onclick="PF('wizardAñadirAsignacion').back();">
+                    </p:commandButton>
+                    <p:commandButton  value="Siguiente"
+                                      icon="ui-icon-arrow-1-e"
+                                      style="float:right;"
+                                      iconPos="right"
+                                      type="button" 
+                                      onclick="PF('wizardAñadirAsignacion').next();">
+                    </p:commandButton>
+                </f:facet>
+            </p:panel>
+        </p:tab>
+        <p:tab title="Confirmación">
+            <panel>
+                <table cellspacing="10">
+                    <tr >
+                        <td colspan="6">
+                            <p:separator />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Folio por Asignar: " />
+                        </td>
+                        <td>
+                            <h:outputText value="#{asignacionOA.oficioSeleccionado.folio}" style="font-weight: bold;" />
+                        </td>
+                        <td>
+                            <h:outputText value="Fecha Actual: " />
+                        </td>
+                        <td>
+                            <h:outputText value="#{asignacionOA.FECHA}" style="font-weight: bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p:separator />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Usuario Emisor: " />
+                        </td>
+                        <td colspan="3">
+                            <h:outputText value="#{asignacionOA.asignacion.asig_emisor}" style="font-weight: bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Departamento Emisor: " />
+                        </td>
+                        <td>
+                            <h:outputText value="#{asignacionOA.asignacion.asig_dep_emisor}" style="font-weight: bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p:separator />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Usuario Asignado: " />
+                        </td>
+                        <td colspan="3">
+                            <h:outputText value="#{asignacionOA.asignacion.asig_asignado}" style="font-weight: bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Departamento Asignado: " />
+                        </td>
+                        <td>
+                            <h:outputText value="#{asignacionOA.asignacion.asig_dep_asignado}" style="font-weight: bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p:separator />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:commandButton  value="Regresar"
+                                              icon="ui-icon-arrow-1-w" 
+                                              iconPos="left"
+                                              type="button" 
+                                              onclick="PF('wizardAñadirAsignacion').back();">
+                            </p:commandButton>
+                        </td>
+                        <td>
+                            <p:commandButton  value="Asignar"
+                                              icon="ui-icon-tag"
+                                              style="float:right;"
+                                              iconPos="right"
+                                              type="button" 
+                                              onclick="PF('confirmarAsignar').show();"
+                                              onsuccess="PF('asignForm').hide();">
+                            </p:commandButton>
+                        </td>
+                    </tr>
+                </table>
+            </panel>
+        </p:tab>
+    </p:wizard>
+
+    <!--Confirmación Dialogo de Registro -->
+    <p:dialog id="confirmacionAsignar" widgetVar="confirmarAsignar" showEffect="clip">
+        <p:panel>
+            <h:form>
+                <p:tab>
+                    <table>
+                        <tr><td><p:outputLabel value="¿Esta seguro de realizar la asignación?"/></td></tr>
+                        <tr><td colspan="2">
+                                <p:commandButton value="Si"
+                                                 actionListener="#{asignacionOA.HandleNuevaAsignacion}"
+                                                 onclick="PF('asignForm').hide();"
+                                                 update="catalogoFrm:catalogoOfic"
+                                                 action="#{asignacionOA.iniciaAsignacion}">
+                                </p:commandButton>
+                                <p:commandButton value="No"
+                                                 onclick="PF('confirmarAsignar').hide();">
+                                </p:commandButton> 
+                            </td></tr>
+                    </table>
+                </p:tab>
+            </h:form>
+        </p:panel>
+    </p:dialog>
+</ui:composition>

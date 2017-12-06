@@ -1,0 +1,180 @@
+ul.ui-widget-header {
+    border: none;
+/*    background: url("../resources/images/backtopudg.jpg") repeat-x scroll 0 0 transparent;*/
+    color: #ffffff;
+    font-weight: bold;
+    background-size: cover;
+}
+.ui-widget-content {
+    border: none;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: none;
+    background: #fff;
+    font-weight: initial;
+    color: #449adc;
+    font-size: 12px;
+}
+.ui-state-default.ui-state-active a, .ui-state-default.ui-state-active a:link, .ui-state-default.ui-state-active a:visited {
+    color: #449adc;
+    text-decoration: none;
+    font-weight: initial;
+}
+.ui-state-active a .ui-menuitem-text, .ui-widget-content.ui-state-active , .ui-widget-header.ui-state-active {
+    color: #828387;
+    font-weight: bold;
+}
+div#zone-content h1#page-title {
+    line-height: 25px;
+    padding-bottom: 20px;
+}
+.submodulo-title {
+    font-size: 55%;
+    color: #0d5581;
+    font-weight: bold;
+}
+
+fieldset.panel-buttons {
+    border: 1px solid rgb(115, 134, 138);
+}
+fieldset.panel-buttons legend {
+    border: 1px solid rgb(195, 214, 218) !important;
+}
+.ui-button {
+    border: solid 1px #e5edf2 !important;
+}
+div.content-botones {
+    border-top: 1px solid rgb(115, 134, 138);
+    border-bottom: 1px solid rgb(115, 134, 138);
+    border-radius: 0;
+}
+div.acciones-button {
+    margin: 0px 20px 0px 0px;
+}
+div.acciones-button ul {
+    margin: 0;
+    padding: 0;
+}
+li.separador-acciones.ui-separator {
+    border: 1px solid #c5dbec;
+}
+
+.ui-widget-header {
+    background: url("../resources/images/backtopudg.jpg") repeat-x scroll 0 0 transparent;
+}
+
+.ui-datatable table thead, .ui-datatable table thead tr, .ui-datatable table thead tr th {
+    vertical-align: bottom;
+}
+.ui-datatable .ui-column-filter {
+    display: block;
+    width: 100%;
+    margin: auto;
+    border: 1px solid #c5dbec;
+    box-shadow: none;
+}
+.tabla {
+    display: inline-block;
+}
+.ui-datatable-tablewrapper, .ui-column-title {
+    font-size: 0.82em;
+}
+.ui-datatable-tablewrapper .ui-datatable-tablewrapper {
+    font-size: 100%;
+}
+.panel-datatable-center {
+    width: 650px;
+    display: -moz-grid;
+}
+.panel-datatable-center .tabla-info {
+    width: 250px;
+    display: -moz-grid;
+}
+.ui-datatable-tablewrapper .ui-state-highlight, .ui-datatable-scrollable-body .ui-state-highlight, .ui-selectonemenu-items.ui-selectonemenu-list .ui-state-highlight {
+    border: 1px solid rgba(68, 154, 220, 0.31);
+    background: rgba(68, 154, 220, 0.31);
+    color: #000;
+}
+.ui-datatable tbody td {
+    padding: 4px 10px;
+    overflow: hidden;
+    border-width: 1px;
+    border-style: none;
+    text-align: center;
+    border-top: solid 1px #449adc;
+    font-size: 100%;
+}
+.ui-datatable tbody tr:hover {
+    border-right: solid 0px transparent;
+    border-bottom: solid 0px transparent;
+}
+.ui-datatable .ui-filter-column {
+    padding-bottom: 10px;
+}
+
+/* ModINFONAVITRepoInfo */
+.table-repo-info {
+    border-collapse:collapse;
+}
+.table-repo-info td {
+    border: #E6E6E6 solid 1px;
+    padding: 5px;
+    margin: 0px;
+}
+.table-repo-sua.subtabla {
+    width: 65%;
+    display: initial;
+}
+.table-repo-sua td.ui-panelgrid-cell {
+    border: #E6E6E6 solid 1px;
+    border-color: #E6E6E6;
+    padding: 5px;
+    margin: 0px;
+}
+.table-repo-sua.subtabla td.ui-panelgrid-cell {
+    border: #E6E6E6 solid 1px;
+    border-color: #E6E6E6;
+    padding: 5px;
+    margin: 0px;
+    text-align: left;
+}
+.table-repo-sua .btn-buscar {
+    text-align: center;
+}
+div.acciones-button ul li:nth-last-child(2),
+div.acciones-button ul li:last-child{
+    float: right;
+}
+
+/* ModIMSSInca */
+.ui-chkbox-icon {
+    border: solid 1px;
+}
+hr {
+    border: 1px solid #666;
+}
+
+/* Select de afiliados y no afiliados */
+.ui-selectonemenu-panel .ui-selectonemenu-items-wrapper {
+    overflow-x: hidden !important;
+}
+
+/* Botónes de IDSE */
+#catalogoFrm\:filterGrid tr td.ui-panelgrid-cell {
+    text-align: center;
+}
+#catalogoFrm\3AfilterGrid tr td.ui-panelgrid-cell {
+    text-align: center;
+}
+
+/* Solución al menú Módulos */
+div#section-menu div#region-menu div#block-menu div.content-block div.ui-menu.ui-menubar ul.ui-menu-list li.ui-widget.ui-menuitem.ui-corner-all ul {
+    height: auto !important;
+/*    overflow: unset !important;*/
+    z-index: 1020;
+    left: 0px;
+    top: 30px;
+}
+.ui-menu .ui-menuitem-text {
+/*    float: initial;*/
+}

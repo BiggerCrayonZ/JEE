@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/templateApp.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="namepage">
+        <h:outputText value="Administrador del Sistema" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="catalogoUser">
+            <p:growl id="messages" showDetail="true" />
+            <p:panel id="contenedorUser"  toggleable="true">
+                <f:facet name="header">
+                    <h:outputText value="Gestor de Usuarios" />
+                </f:facet>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton type="button" value="Añadir Usuario" icon="ui-icon-person"  /> 
+                        <span class="ui-separator">
+                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                        </span>
+                    </f:facet>
+                    <f:facet name="right">
+                        <p:commandButton  icon="ui-icon-arrowrefresh-1-w" update="catalogoUser"  />
+                    </f:facet>
+                </p:toolbar>
+                <h:panelGrid columns="2" width="100%">
+                    <p:dataTable id="dtUser" 
+                                 widgetVar="wUserTable" 
+                                 scrollable="true"
+                                 lazy="true"
+                                 var="userTram"
+                                 paginator="true" paginatorPosition="bottom" 
+                                 pageLinks="1" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 currentPageReportTemplate="({currentPage} de {totalPages})"
+                                 rows="5" selectionMode="single"
+                                 emptyMessage="No hay usuarios en el sistema, a parte del Administrador">
+                        <f:facet name="header">
+                            Lista de Usuarios
+                        </f:facet>
+                    </p:dataTable>
+                    <p:panel id="parametrosUser" header="Parametros" >
+                    </p:panel>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

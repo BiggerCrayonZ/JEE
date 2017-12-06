@@ -1,0 +1,253 @@
+/*-----------------------------------------------------------------------------------
+
+        Theme Name: Modelo Web de sistemas
+        Theme URI: http://miudg.udg.mx
+        Description: Rocking your WordPress world!
+        Author: Gustavo Ogas, Felipe Neville
+        Version: 1.0
+-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+@import url(http://fonts.googleapis.com/css?family=Noticia+Text:400,700,400italic,700italic);
+/*-----------------------------------------------------------------------------------*/
+/*	0.	CSS Reset & Clearfix - http://meyerweb.com/eric/tools/css/reset/
+/*-----------------------------------------------------------------------------------*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 98%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+body {
+    line-height: 1.4em;
+    font-family:"Open Sans",'lucida grande',tahoma,verdana,arial,sans-serif;
+    color: #444444;
+    direction: ltr;
+    margin: 0 auto;
+    padding: 0;
+    text-align: left;
+    unicode-bidi: embed;
+}
+.block ul li a.active{
+    color: #336F9D;
+}
+/*-----------------------------------------------------------------------------------*/
+/*	1.	Document Setup (body, common classes, vertical rhythm, structure etc)
+/*-----------------------------------------------------------------------------------*/
+.block{
+    margin-bottom: 30px;
+    padding: 0;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -o-box-sizing:border-box;
+    -ms-box-sizing:border-box;	
+}
+.block ul, .item-list ul {
+    margin: 1em 0;
+    padding: 0 0 0 1em;
+}
+#zone-content p{
+    margin:10px 0;
+}
+#zone-header1 h1{
+    padding-left: 30px;
+}
+a:link, a:visited {
+    cursor:pointer;
+    color:#336F9D;
+    text-decoration: none;
+}
+a:hover {
+    opacity:0.7;
+    text-decoration:none;
+}
+h1, h2, h3{
+    font-family: 'Noticia Text', serif;
+    line-height: 1.2em;
+    font-weight:400;
+    color:#73868A;
+    margin:0;
+    padding:0;
+}
+h4, h5, h6 {
+    font-family: "Open Sans", 'lucida grande', tahoma, verdana, arial, sans-serif; 
+    line-height: 1.6em; 
+    font-weight:400;
+    color:#73868A;
+    margin:0;
+    padding:0;
+}
+h1 {
+    font-size: 30px;
+}
+h2 {
+    font-size: 20px !important;
+    margin-bottom:10px !important;
+}
+h3 {
+    font-size: 22px;
+    margin-bottom:10px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 14px;
+}
+h6{
+    font-size: 13px;
+}
+
+h1#page-title{
+    font-size:30px;
+    line-height: 35px;
+    min-height: 24px;
+    vertical-align: bottom;
+    padding: 12px 0 24px;
+    color:#73868A;
+    font-weight:400;
+    font-family: 'Noticia Text', serif;
+
+}
+#section-content, #section-header{
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+td {
+    vertical-align: middle;
+}
+/*-----------------------------------------------------------------------------------*/
+/*	2.	Header Styles
+/*-----------------------------------------------------------------------------------*/
+/*Logo*/
+#block-logo{
+    margin: 0;
+}
+/*Menu superior*/
+#block-menu-secundario{
+    margin: 0;
+}
+/*Nombre del sistema*/
+#section-branding.perfil{
+    background: url('../images/backtopudg.jpg');
+    padding: 20px;
+    color: #fff;
+    font-size: 1.1em;
+}
+#section-branding span{
+    display: inline-block;
+    vertical-align: middle;
+}
+#section-branding img{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+.ui-datatable-scrollable-theadclone {
+    visibility: hidden;
+
+    line-height:0;
+
+}
+
+/*Bloque de menu*/
+#block-menu{
+    margin: 0;
+}
+/*Bloque de liston*/
+#block-liston{
+    margin: 0;
+    background:url("../images/bg_x.png");
+}
+#block-liston img{
+    display: block;
+}
+#section-content {
+    background: url("../images/main_bg.jpg") repeat-x scroll 0 0 transparent;
+}
+/*Logo*/
+#logo.siiau{
+    background: url("../images/logo_siiau.png") no-repeat left center;
+    text-indent: 76px;
+    display: inline-block;
+    width: 75px;
+    overflow:hidden;
+    vertical-align: middle;
+}
+/*Minimenu de Usuario*/
+#minimenu_user{
+    background: url('../images/menu_desplegable.png') no-repeat left center;
+    width: 20px;
+    height: 20px;
+    text-indent: 62px;
+    overflow: hidden;
+    vertical-align: top;
+}
+/*-----------------------------------------------------------------------------------*/
+/*	3.	Navigation & Menus
+/*-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------*/
+/*	4.	Main Content Styles
+/*-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------*/
+/*	5.	Forms
+/*-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------*/
+/*	6.	Footer Styles
+/*-----------------------------------------------------------------------------------*/
+#section-footer{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #FBFBFB;
+    color: #666;
+    text-align: center;
+    box-shadow: 0 10px 10px -10px #ccc;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*	7.	Pages, nodes & drupal elements
+/*-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------*/
+/*	8.	Vistas
+/*-----------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	9.	Bloques
+/*-----------------------------------------------------------------------------------*/
+
+/*Aviso*/
+#block-aviso{
+    border: solid #FFDF9C thin;
+    padding: 25px 25px 25px 70px;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+    background: url('../images/aviso.png') no-repeat left center;
+
+}
+#block-aviso .aviso{
+    color: #fc7920;
+    font-size: 16px;
+    font-style: italic;
+    padding-right: 20px;
+}
